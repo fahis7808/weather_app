@@ -11,6 +11,7 @@ class WeatherModel with _$WeatherModel {
     @JsonKey(name: 'wind_kph')double? windKph,
     @JsonKey(name: 'wind_mph')double? windMph,
     @JsonKey(name: 'wind_dir')String? windDirection,
+    int? humidity,
   }) = _WeatherModel;
 
   factory WeatherModel.fromJson(Map<String, dynamic> json) =>

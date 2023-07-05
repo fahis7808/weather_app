@@ -12,11 +12,16 @@ class DashboardProvider extends ChangeNotifier {
 
   String ipAddress = "";
   String city = '';
-  double temp = 0;
+
+  TextEditingController controller = TextEditingController();
+
   bool isLoaded = false;
 
   WeatherModel weatherModel = WeatherModel();
   LocationModel locationModel = LocationModel();
+
+  List<WeatherModel> filteredData = [];
+
 
   DashboardProvider(){
     fetchIp();
@@ -38,12 +43,13 @@ class DashboardProvider extends ChangeNotifier {
 
   Future fetchWeatherData() async{
     var res = await ApiCalling.fetchData('http://api.weatherapi.com/v1/current.json?key=a372d3b686be43d48d552834232106&q=$city&aqi=no');
-    temp = res['current']['temp_c'];
     weatherModel = WeatherModel.fromJson(res['current']);
     locationModel = LocationModel.fromJson(res['location']);
     notifyListeners();
+    print(res);
     isLoaded = true;
     notifyListeners();
+    saveDataToSP();
   }
 
   Future saveDataToSP() async {
@@ -58,10 +64,23 @@ class DashboardProvider extends ChangeNotifier {
     String? jsonData = prefs.getString('weatherData');
     if (jsonData != null) {
       Map<String, dynamic> jsonMap = json.decode(jsonData);
-      return WeatherModel.fromJson(jsonMap);
+      weatherModel = WeatherModel.fromJson(jsonMap);
     }
-    return null;
   }
 
 
-}
+  void filterData(String query) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jsonData = prefs.getString('weatherData');
+
+    if (jsonData != null) {
+      WeatherModel weatherModel = WeatherModel.fromJson(json.decode(jsonData));
+
+      filteredData.clear();
+      }
+    }
+  }
+
+
+
+

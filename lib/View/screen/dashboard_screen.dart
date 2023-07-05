@@ -16,8 +16,8 @@ class DashboardScreen extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
               child: Visibility(
-                visible: provider.isLoaded,
-                replacement: Center(
+                // visible: provider.isLoaded,
+                replacement: const Center(
                   child: CircularProgressIndicator(),
                 ),
                 child: Column(
@@ -33,7 +33,6 @@ class DashboardScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(top: 30.0,bottom: 20),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -64,6 +63,25 @@ class DashboardScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
+                               TextFormField(
+                                 controller: provider.controller,
+                                 decoration: InputDecoration(
+                                     prefixIconColor: const Color(0XFF828282),
+                                     border: OutlineInputBorder(
+                                         borderRadius: BorderRadius.circular(15),
+                                         borderSide: BorderSide.none),
+                                     fillColor: const Color(0xFFF2F2F2),
+                                     filled: true,
+                                     hintText: 'Search',
+                                     hintStyle: const TextStyle(
+                                         fontSize: 18,
+                                         color: Color(0xFF828282),
+                                         fontWeight: FontWeight.bold)),
+                                 onChanged: (val){
+                                   provider.filterData(val);
+                                 },
+                               ),
+                               Expanded(child: SizedBox()),
                                Text(
                                 '${provider.weatherModel.tempC}°C',
                                 style: const TextStyle(
@@ -71,7 +89,7 @@ class DashboardScreen extends StatelessWidget {
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white54),
                               ),
-
+                              Expanded(child: SizedBox()),
                               Column(
                                 children: [
                                   Text(
