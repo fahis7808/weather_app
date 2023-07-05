@@ -17,6 +17,9 @@ class DashboardScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 20.0),
               child: Visibility(
                 visible: provider.isLoaded,
+                replacement: Center(
+                  child: CircularProgressIndicator(),
+                ),
                 child: Column(
                   children: [
                     Expanded(
@@ -45,7 +48,7 @@ class DashboardScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    provider.city,
+                                    provider.locationModel.city.toString(),
                                     style: TextStyle(
                                         color: Colors.white60,
                                         fontSize:
@@ -62,7 +65,7 @@ class DashboardScreen extends StatelessWidget {
                                 ],
                               ),
                                Text(
-                                '${provider.temp}°C',
+                                '${provider.weatherModel.tempC}°C',
                                 style: const TextStyle(
                                     fontSize: 80,
                                     fontWeight: FontWeight.w600,
@@ -130,9 +133,6 @@ class DashboardScreen extends StatelessWidget {
                     )
 
                   ],
-                ),
-                replacement: Center(
-                  child: CircularProgressIndicator(),
                 ),
               ),
             );
